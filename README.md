@@ -18,4 +18,4 @@ The following is a quick and dirty way to get my Scansnap S1300 working on [Ubun
 [u]: http://www.ubuntu.com/
 [x]: http://xubuntu.org/
 [e]: http://elementary.io/ "elementary OS"
-[ss]: [ss]: https://launchpad.net/simple-scan "Simple Scanning Utility."
+[ss]: https://launchpad.net/simple-scan "Simple Scanning Utility."
