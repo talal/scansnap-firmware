@@ -1,54 +1,35 @@
 # Scansnap firmware
 
-The following is a quick and dirty way to get my Scansnap S1300 working on [Ubuntu][u], [Xubuntu][x], or [Elementary OS][e]. (This could possibly work on other Debian based linux too.)
+The following is a quick way to get my ScanSnap S1300i working on [Pop!_OS](https://pop.system76.com/).
 
-# Installation on Debian
+## Installation
 
-1. Download firmware:
-
-        git clone https://github.com/ckunte/scansnap-firmware.git
-
-2. Run the following commands in a Terminal
-
-        sudo mkdir -p /usr/share/sane/epjitsu
-        sudo cp ~/Downloads/scansnap-firmware/* /usr/share/sane/epjitsu/.
-        sudo cpan upgrade sane
-        sudo apt-get install libsane-dev
-        
-3. Logout, and then re-login. Try [Simple Scan][ss], and the scanner should work.
-
-[u]: http://www.ubuntu.com/
-[x]: http://xubuntu.org/
-[e]: http://elementary.io/ "elementary OS"
-[ss]: https://launchpad.net/simple-scan "Simple Scanning Utility."
-
-# Installation on Arch Linux
-
-1. Prepare System
+1. Download firmware
 
 ```
-sudo su
-#install needed software
-pacman -S sane
-#optional
-#pacman -S xsane
-#pacman -S simple-scan
-
-#add usb device to know sane configuration
-echo “usb 0x04c5 0x1155” >> /etc/sane.d/fujitsu.conf
-exit
+sudo mkdir -p /usr/share/sane/epjitsu
+sudo cp scansnap-firmware/1300i_0D12.nal /usr/share/sane/epjitsu/.
+sudo cpan upgrade sane
+sudo apt-get install sane sane-utils libsane libsane-dev
 ```
 
-2. Download firmware
+2. Adjust permissions to access scanner as a non-root user
+
+Add the following to `/etc/udev/rules.d/79-scanner.rules`:
 
 ```
-sudo su
-cd /usr/share/sane/epjitsu/
-wget https://github.com/ckunte/scansnap-firmware/raw/master/1300i_0D12.nal
-exit
+# Fujitsu ScanSnap S1300i
+ATTRS{idVendor}=="04c5", ATTRS{idProduct}=="128d", MODE="0664", GROUP="scanner", ENV{libsane_matched}="yes"
 ```
 
-3. Use it
+You can get id(s) using `lsusb`.
 
-Try [Simple Scan][ss], and the scanner should work.
+Add yourself to the `scanner` group:
+
+```
+sudo usermod -a -G scanner <username>
+```
+
+3. Logout, and then re-login. Try [Simple Scan](https://launchpad.net/simple-scan), and the scanner should work. 
+
 Read '/etc/sane.d/epjitsu.conf', if needed.
