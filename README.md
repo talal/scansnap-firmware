@@ -47,6 +47,7 @@ The following is a quick way to get my ScanSnap S1300i working on [Pop!_OS](http
 4. Enable `saned`:
 
     ```
+    sudo sh -c "echo 127.0.0.1 >> /etc/sane.d/saned.conf"
     sudo systemctl enable saned.socket
     ```
 
